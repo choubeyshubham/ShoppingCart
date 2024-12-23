@@ -1,6 +1,7 @@
 package in.choubeyshubham.shoppingcart.service.product;
 
 import in.choubeyshubham.shoppingcart.model.Product;
+import in.choubeyshubham.shoppingcart.request.AddProductRequestDTO;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ public interface IProductService {
     Product getProductById(Long id);
 
     //Post method add products
-    void addProduct(Product product);
-    void addAllProducts(List<Product> products);
+    Product addProduct(AddProductRequestDTO productRequestDTO);
+    List<Product> addAllProducts(List<AddProductRequestDTO> productRequestDTOS);
 
     //Delete methods
     void deleteProductById(Long id);
