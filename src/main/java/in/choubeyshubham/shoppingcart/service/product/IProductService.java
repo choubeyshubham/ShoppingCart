@@ -2,6 +2,7 @@ package in.choubeyshubham.shoppingcart.service.product;
 
 import in.choubeyshubham.shoppingcart.model.Product;
 import in.choubeyshubham.shoppingcart.request.AddProductRequestDTO;
+import in.choubeyshubham.shoppingcart.request.ProductUpdateRequestDTO;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface IProductService {
     void deleteAllProducts();
 
     //put methods
-    void updateProduct(Product product);
+    Product updateProduct(ProductUpdateRequestDTO requestDTO,Long id);
 
     Long countProductsByBrandAndName(String brand, String name);
 

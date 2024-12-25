@@ -109,9 +109,12 @@ public class ProductService implements IProductService {
 
     //Put Method-----------------------
     @Override
-    public void updateProduct(Product product) {
+    public Product updateProduct(ProductUpdateRequestDTO requestDTO, Long id) {
 
-
+    return productRepository.findById(id)
+            .map(exProd->updateExistingProduct(exProd, requestDTO))
+            .map(productRepository::save)
+            .orElseThrow(()->new ProductNotFoundException("Product not found!"));
     }
     private Product updateExistingProduct(Product exProduct, ProductUpdateRequestDTO requestDTO) {
         exProduct.setName(requestDTO.getName());
@@ -119,8 +122,10 @@ public class ProductService implements IProductService {
         exProduct.setPrice(requestDTO.getPrice());
         exProduct.setInventory(requestDTO.getInventory());
         exProduct.setDescription(requestDTO.getDescription());
-        return productRepository.save(exProduct);
+        Category category=categoryRepository.findByName(requestDTO.getCategory().getName());
+        exProduct.setCategory(category);
 
+        return exProduct;
 
 
 
