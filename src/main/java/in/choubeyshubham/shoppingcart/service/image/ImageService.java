@@ -1,6 +1,6 @@
 package in.choubeyshubham.shoppingcart.service.image;
 
-import in.choubeyshubham.shoppingcart.DTO.ImageDTO;
+import in.choubeyshubham.shoppingcart.dto.ImageDTO;
 import in.choubeyshubham.shoppingcart.exception.ImageNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Image;
 import in.choubeyshubham.shoppingcart.model.Product;
@@ -67,7 +67,7 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public void updateImage(MultipartFile file, Long imageId, Long productId) {
+    public void updateImage(MultipartFile file, Long imageId) {
         Image image = getImageById(imageId);
         try {
             image.setFileName(file.getOriginalFilename());

@@ -1,4 +1,4 @@
-package in.choubeyshubham.shoppingcart.DTO;
+package in.choubeyshubham.shoppingcart.dto;
 
 
 import lombok.Data;
