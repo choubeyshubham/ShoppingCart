@@ -6,6 +6,7 @@ import in.choubeyshubham.shoppingcart.exception.CategoryNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Category;
 import in.choubeyshubham.shoppingcart.response.ApiResponse;
 import in.choubeyshubham.shoppingcart.service.category.CategoryService;
+import in.choubeyshubham.shoppingcart.service.category.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("${api.prefix}/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final ICategoryService categoryService;
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllCategories() {

@@ -4,6 +4,7 @@ import in.choubeyshubham.shoppingcart.dto.ImageDTO;
 import in.choubeyshubham.shoppingcart.exception.ImageNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Image;
 import in.choubeyshubham.shoppingcart.response.ApiResponse;
+import in.choubeyshubham.shoppingcart.service.image.IImageService;
 import in.choubeyshubham.shoppingcart.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,7 +25,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RestController
 @RequestMapping("${api.prefix}/images")
 public class ImageController {
-    private final ImageService imageService;
+    private final IImageService imageService;
 
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
