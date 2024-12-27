@@ -4,10 +4,9 @@ package in.choubeyshubham.shoppingcart.dto;
 import lombok.Data;
 
 @Data
-public class ImageDTO {
-    private Long imageID;
-    private String imageName;
+public class ImageDto {
+    private Long id;
+    private String fileName;
     private String downloadUrl;
 
 }
-

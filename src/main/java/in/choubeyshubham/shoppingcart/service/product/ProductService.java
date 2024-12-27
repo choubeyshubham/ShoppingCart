@@ -1,135 +1,141 @@
 package in.choubeyshubham.shoppingcart.service.product;
 
-import in.choubeyshubham.shoppingcart.exception.ProductNotFoundException;
+import in.choubeyshubham.shoppingcart.dto.ImageDto;
+import in.choubeyshubham.shoppingcart.dto.ProductDto;
+import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Category;
+import in.choubeyshubham.shoppingcart.model.Image;
 import in.choubeyshubham.shoppingcart.model.Product;
 import in.choubeyshubham.shoppingcart.repository.CategoryRepository;
+import in.choubeyshubham.shoppingcart.repository.ImageRepository;
 import in.choubeyshubham.shoppingcart.repository.ProductRepository;
-import in.choubeyshubham.shoppingcart.request.AddProductRequestDTO;
-import in.choubeyshubham.shoppingcart.request.ProductUpdateRequestDTO;
+import in.choubeyshubham.shoppingcart.request.AddProductRequest;
+import in.choubeyshubham.shoppingcart.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService {
-
-
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
-    //Get methods
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-    @Override
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategoryName(category);
-    }
-    @Override
-    public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrand(brand);
-    }
-    @Override
-    public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return productRepository.findByCategoryNameAndBrand(category,brand);
-    }
-    @Override
-    public List<Product> getProductsByBrandAndCategory(String brand, String category) {
-        return productRepository.findByBrandAndCategory(brand,category);
-    }
-    @Override
-    public List<Product> getProductsByName(String name) {
-        return productRepository.findByName(name);
-    }
-    @Override
-    public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return productRepository.findByBrandAndName(brand,name);
-    }
-    @Override
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product not found!"));
-    }
-    @Override
-    public Long countProductsByBrandAndName(String brand, String name) {
-        return productRepository.countByBrandAndName(brand,name);
-    }
+    public Product addProduct(AddProductRequest request) {
+        // check if the category is found in the DB
+        // If Yes, set it as the new product category
+        // If No, the save it as a new category
+        // The set as the new product category.
 
-    //Post Method----------------------------------------
-    @Override
-    public Product addProduct(AddProductRequestDTO requestDTO) {
-        //check if the category found in the db
-        //If yes ,set it as the new product category
-        //If no save it as a new category save as the new product category
-        Category category = Optional.ofNullable(categoryRepository
-                .findByName(requestDTO.getCategory().getName()))
-                .orElseGet(()->{
-                    Category newCategory = new Category();
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(() -> {
+                    Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
                 });
-
-        requestDTO.setCategory(category);
-        return productRepository.save(ctreateProduct(requestDTO, category));
+        request.setCategory(category);
+        return productRepository.save(createProduct(request, category));
     }
-    private Product ctreateProduct(AddProductRequestDTO requestDTO, Category category) {
+
+    private Product createProduct(AddProductRequest request, Category category) {
         return new Product(
-                requestDTO.getName(),
-                requestDTO.getBrand(),
-                requestDTO.getPrice(),
-                requestDTO.getInventory(),
-                requestDTO.getDescription(),
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
                 category
         );
     }
 
+
     @Override
-    public List<Product> addAllProducts(List<AddProductRequestDTO> productDTOS) {
-        ArrayList<Product> list = new ArrayList<>();
-        for(AddProductRequestDTO product: productDTOS){
-            list.add(addProduct(product));
-        }
-        return list;
+    public Product getProductById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Product not found!"));
     }
 
-    //Delete methods-------------------
     @Override
     public void deleteProductById(Long id) {
-        productRepository.findById(id).ifPresentOrElse(productRepository::delete,
-                ()->{throw new ProductNotFoundException("Product not found!");});
+        productRepository.findById(id)
+                .ifPresentOrElse(productRepository::delete,
+                        () -> {throw new ResourceNotFoundException("Product not found!");});
     }
+
     @Override
-    public void deleteAllProducts() {
-      //  productRepository.deleteAll();
+    public Product updateProduct(ProductUpdateRequest request, Long productId) {
+        return productRepository.findById(productId)
+                .map(existingProduct -> updateExistingProduct(existingProduct,request))
+                .map(productRepository :: save)
+                .orElseThrow(()-> new ResourceNotFoundException("Product not found!"));
     }
 
-    //Put Method-----------------------
+    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request) {
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setInventory(request.getInventory());
+        existingProduct.setDescription(request.getDescription());
+
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+        return  existingProduct;
+
+    }
+
     @Override
-    public Product updateProduct(ProductUpdateRequestDTO requestDTO, Long id) {
-
-    return productRepository.findById(id)
-            .map(exProd->updateExistingProduct(exProd, requestDTO))
-            .map(productRepository::save)
-            .orElseThrow(()->new ProductNotFoundException("Product not found!"));
-    }
-    private Product updateExistingProduct(Product exProduct, ProductUpdateRequestDTO requestDTO) {
-        exProduct.setName(requestDTO.getName());
-        exProduct.setBrand(requestDTO.getBrand());
-        exProduct.setPrice(requestDTO.getPrice());
-        exProduct.setInventory(requestDTO.getInventory());
-        exProduct.setDescription(requestDTO.getDescription());
-        Category category=categoryRepository.findByName(requestDTO.getCategory().getName());
-        exProduct.setCategory(category);
-
-        return exProduct;
-
-
-
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        return productRepository.findByCategoryName(category);
+    }
 
+    @Override
+    public List<Product> getProductsByBrand(String brand) {
+        return productRepository.findByBrand(brand);
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
+        return productRepository.findByCategoryNameAndBrand(category, brand);
+    }
+
+    @Override
+    public List<Product> getProductsByName(String name) {
+        return productRepository.findByName(name);
+    }
+
+    @Override
+    public List<Product> getProductsByBrandAndName(String brand, String name) {
+        return productRepository.findByBrandAndName(brand, name);
+    }
+
+    @Override
+    public Long countProductsByBrandAndName(String brand, String name) {
+        return productRepository.countByBrandAndName(brand, name);
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToDto).toList();
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
+                .toList();
+        productDto.setImages(imageDtos);
+        return productDto;
+    }
 }

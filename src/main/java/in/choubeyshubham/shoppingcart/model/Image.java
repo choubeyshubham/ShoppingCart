@@ -10,11 +10,10 @@ import java.sql.Blob;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Image {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +27,4 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
-
-
 }

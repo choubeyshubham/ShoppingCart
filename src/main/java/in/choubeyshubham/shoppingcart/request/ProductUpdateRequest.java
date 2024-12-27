@@ -6,8 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ProductUpdateRequestDTO {
-
+public class ProductUpdateRequest {
     private Long id;
     private String name;
     private String brand;
@@ -15,8 +14,4 @@ public class ProductUpdateRequestDTO {
     private int inventory;
     private String description;
     private Category category;
-
-
-
-
 }

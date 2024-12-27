@@ -1,37 +1,27 @@
 package in.choubeyshubham.shoppingcart.service.product;
 
+
+import in.choubeyshubham.shoppingcart.dto.ProductDto;
 import in.choubeyshubham.shoppingcart.model.Product;
-import in.choubeyshubham.shoppingcart.request.AddProductRequestDTO;
-import in.choubeyshubham.shoppingcart.request.ProductUpdateRequestDTO;
+import in.choubeyshubham.shoppingcart.request.AddProductRequest;
+import in.choubeyshubham.shoppingcart.request.ProductUpdateRequest;
 
 import java.util.List;
 
 public interface IProductService {
-
-    //Get methods
+    Product addProduct(AddProductRequest product);
+    Product getProductById(Long id);
+    void deleteProductById(Long id);
+    Product updateProduct(ProductUpdateRequest product, Long productId);
     List<Product> getAllProducts();
     List<Product> getProductsByCategory(String category);
     List<Product> getProductsByBrand(String brand);
     List<Product> getProductsByCategoryAndBrand(String category, String brand);
-    List<Product> getProductsByBrandAndCategory(String brand, String category);
-    List<Product> getProductsByName( String name);
-    List<Product> getProductsByBrandAndName(String brand, String name);
-    Product getProductById(Long id);
-
-    //Post method add products
-    Product addProduct(AddProductRequestDTO productRequestDTO);
-    List<Product> addAllProducts(List<AddProductRequestDTO> productRequestDTOS);
-
-    //Delete methods
-    void deleteProductById(Long id);
-
-
-    void deleteAllProducts();
-
-    //put methods
-    Product updateProduct(ProductUpdateRequestDTO requestDTO,Long id);
-
+    List<Product> getProductsByName(String name);
+    List<Product> getProductsByBrandAndName(String category, String name);
     Long countProductsByBrandAndName(String brand, String name);
 
+    List<ProductDto> getConvertedProducts(List<Product> products);
 
+    ProductDto convertToDto(Product product);
 }
