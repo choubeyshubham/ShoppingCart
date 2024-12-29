@@ -1,13 +1,11 @@
 package in.choubeyshubham.shoppingcart.service.image;
 
-
 import in.choubeyshubham.shoppingcart.dto.ImageDto;
 import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Image;
 import in.choubeyshubham.shoppingcart.model.Product;
 import in.choubeyshubham.shoppingcart.repository.ImageRepository;
 import in.choubeyshubham.shoppingcart.service.product.IProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ImageService implements IImageService {
     private final ImageRepository imageRepository;
     private final IProductService productService;
+
+    public ImageService(ImageRepository imageRepository, IProductService productService) {
+        this.imageRepository = imageRepository;
+        this.productService = productService;
+    }
 
 
     @Override
@@ -39,7 +41,7 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public List<ImageDto> saveImages( Long productId,   List<MultipartFile> files) {
+    public List<ImageDto> saveImages(Long productId, List<MultipartFile> files) {
         Product product = productService.getProductById(productId);
 
         List<ImageDto> savedImageDto = new ArrayList<>();

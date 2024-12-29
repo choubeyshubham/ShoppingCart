@@ -1,11 +1,11 @@
 package in.choubeyshubham.shoppingcart.controller;
 
+
 import in.choubeyshubham.shoppingcart.dto.ImageDto;
 import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Image;
 import in.choubeyshubham.shoppingcart.response.ApiResponse;
 import in.choubeyshubham.shoppingcart.service.image.IImageService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,12 +20,14 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/images")
 public class ImageController {
     private final IImageService imageService;
+
+    public ImageController(IImageService imageService) {
+        this.imageService = imageService;
+    }
 
 
     @PostMapping("/upload")
