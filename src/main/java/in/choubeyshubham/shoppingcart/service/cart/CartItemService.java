@@ -1,13 +1,31 @@
 package in.choubeyshubham.shoppingcart.service.cart;
 
 
+import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
+import in.choubeyshubham.shoppingcart.model.Cart;
+import in.choubeyshubham.shoppingcart.model.CartItem;
+import in.choubeyshubham.shoppingcart.model.Product;
+import in.choubeyshubham.shoppingcart.repository.CartItemRepository;
+import in.choubeyshubham.shoppingcart.repository.CartRepository;
+import in.choubeyshubham.shoppingcart.service.product.IProductService;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+
 @Service
-@RequiredArgsConstructor
 public class CartItemService  implements ICartItemService{
     private final CartItemRepository cartItemRepository;
     private final CartRepository cartRepository;
     private final IProductService productService;
     private final ICartService cartService;
+
+
+    public CartItemService(CartItemRepository cartItemRepository, CartRepository cartRepository, IProductService productService, ICartService cartService) {
+        this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
+        this.productService = productService;
+        this.cartService = cartService;
+    }
 
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
@@ -35,6 +53,8 @@ public class CartItemService  implements ICartItemService{
         cart.addItem(cartItem);
         cartItemRepository.save(cartItem);
         cartRepository.save(cart);
+
+
     }
 
     @Override
@@ -74,3 +94,4 @@ public class CartItemService  implements ICartItemService{
                 .findFirst().orElseThrow(() -> new ResourceNotFoundException("Item not found"));
     }
 }
+

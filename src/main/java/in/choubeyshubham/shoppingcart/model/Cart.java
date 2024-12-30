@@ -19,35 +19,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-//    private User user;
-
-    public void addItem(CartItem item) {
-        this.items.add(item);
-        item.setCart(this);
-        updateTotalAmount();
-    }
-
-    public void removeItem(CartItem item) {
-        this.items.remove(item);
-        item.setCart(null);
-        updateTotalAmount();
-    }
-
-    private void updateTotalAmount() {
-        this.totalAmount = items.stream().map(item -> {
-            BigDecimal unitPrice = item.getUnitPrice();
-            if (unitPrice == null) {
-                return  BigDecimal.ZERO;
-            }
-            return unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
-        }).reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-    public void clearCart(){
-        this.items.clear();
-        updateTotalAmount();
-    }
-
-
+    private User user;
     //---Getter Setter Coonstructor
     public Cart(Long id, BigDecimal totalAmount, Set<CartItem> items, User user) {
         this.id = id;
@@ -90,6 +62,36 @@ public class Cart {
     public void setUser(User user) {
         this.user = user;
     }
+
+    //Methods ------------------
+    public void addItem(CartItem item) {
+        this.items.add(item);
+        item.setCart(this);
+        updateTotalAmount();
+    }
+
+    public void removeItem(CartItem item) {
+        this.items.remove(item);
+        item.setCart(null);
+        updateTotalAmount();
+    }
+
+    private void updateTotalAmount() {
+        this.totalAmount = items.stream().map(item -> {
+            BigDecimal unitPrice = item.getUnitPrice();
+            if (unitPrice == null) {
+                return  BigDecimal.ZERO;
+            }
+            return unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+    public void clearCart(){
+        this.items.clear();
+        updateTotalAmount();
+    }
+
+
+
 
     //class end
 }
