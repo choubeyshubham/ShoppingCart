@@ -30,7 +30,7 @@ public class CartController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
     }
-
+    
     @DeleteMapping("/{cartId}/clear")
     public ResponseEntity<ApiResponse> clearCart( @PathVariable Long cartId) {
         try {
@@ -40,6 +40,7 @@ public class CartController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
     }
+    //4:260
 
     @GetMapping("/{cartId}/cart/total-price")
     public ResponseEntity<ApiResponse> getTotalAmount( @PathVariable Long cartId) {

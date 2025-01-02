@@ -25,6 +25,22 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+
+
+
+
+
+
+
+    //Getter Setter Constructor
+//    public Order(Long orderId, LocalDate orderDate, BigDecimal totalAmount, OrderStatus orderStatus, Set<OrderItem> orderItems, User user) {
+//        this.orderId = orderId;
+//        this.orderDate = orderDate;
+//        this.totalAmount = totalAmount;
+//        this.orderStatus = orderStatus;
+//        this.orderItems = orderItems;
+//        this.user = user;
+//    }
     public Order() {
     }
 

@@ -3,6 +3,7 @@ package in.choubeyshubham.shoppingcart.service.cart;
 
 import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Cart;
+import in.choubeyshubham.shoppingcart.model.User;
 import in.choubeyshubham.shoppingcart.repository.CartItemRepository;
 import in.choubeyshubham.shoppingcart.repository.CartRepository;
 import in.choubeyshubham.shoppingcart.service.product.IProductService;
@@ -17,13 +18,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CartService implements ICartService{
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final AtomicLong cartIdGenerator = new AtomicLong(0);
-    private final IProductService productService;
+//    private final AtomicLong cartIdGenerator = new AtomicLong(0);
+//    private final IProductService productService;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, IProductService productService) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository){//, IProductService productService) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.productService = productService;
+//        this.productService = productService;
     }
 
     @Override

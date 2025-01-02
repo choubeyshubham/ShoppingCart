@@ -2,6 +2,7 @@ package in.choubeyshubham.shoppingcart.service.cart;
 
 
 import in.choubeyshubham.shoppingcart.model.Cart;
+import in.choubeyshubham.shoppingcart.model.User;
 
 import java.math.BigDecimal;
 
