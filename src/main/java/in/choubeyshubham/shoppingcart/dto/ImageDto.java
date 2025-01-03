@@ -1,14 +1,13 @@
 package in.choubeyshubham.shoppingcart.dto;
 
 
-import lombok.Data;
-
 //@Data
 public class ImageDto {
     private Long id;
     private String fileName;
     private String downloadUrl;
 
+    //Getter Setter Constructor
     public ImageDto(Long id, String fileName, String downloadUrl) {
         this.id = id;
         this.fileName = fileName;
@@ -41,4 +40,6 @@ public class ImageDto {
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
     }
+
+    //------------End of class
 }

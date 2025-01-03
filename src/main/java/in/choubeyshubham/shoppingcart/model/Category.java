@@ -21,11 +21,11 @@ public class Category {
         this.name = name;
     }
 
-    public Category(Long id, String name, List<Product> products) {
-        this.id = id;
-        this.name = name;
-        this.products = products;
-    }
+//    public Category(Long id, String name, List<Product> products) {
+//        this.id = id;
+//        this.name = name;
+//        this.products = products;
+//    }
 
     public Category() {
     }

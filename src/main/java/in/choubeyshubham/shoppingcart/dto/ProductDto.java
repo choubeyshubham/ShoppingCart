@@ -18,6 +18,8 @@ public class ProductDto {
     private Category category;
     private List<ImageDto> images;
 
+
+    //Getter Setter Constructor
     public ProductDto(Long id, String name, String brand, BigDecimal price, int inventory, String description, Category category, List<ImageDto> images) {
         this.id = id;
         this.name = name;
@@ -95,4 +97,6 @@ public class ProductDto {
     public void setImages(List<ImageDto> images) {
         this.images = images;
     }
+
+//------------End of class
 }
