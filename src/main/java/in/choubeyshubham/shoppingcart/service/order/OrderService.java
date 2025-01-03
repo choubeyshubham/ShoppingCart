@@ -2,6 +2,7 @@ package in.choubeyshubham.shoppingcart.service.order;
 
 import in.choubeyshubham.shoppingcart.dto.OrderDto;
 import in.choubeyshubham.shoppingcart.enums.OrderStatus;
+import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Cart;
 import in.choubeyshubham.shoppingcart.model.Order;
 import in.choubeyshubham.shoppingcart.model.OrderItem;
@@ -22,11 +23,11 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderService implements IOrderService {
-
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
     private final ModelMapper modelMapper;
+
 
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository, CartService cartService, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
@@ -95,4 +96,9 @@ public class OrderService implements IOrderService {
     public OrderDto convertToDto(Order order) {
         return modelMapper.map(order, OrderDto.class);
     }
+
+
+
+
+
 }

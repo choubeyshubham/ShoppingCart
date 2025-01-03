@@ -18,13 +18,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CartService implements ICartService{
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-//    private final AtomicLong cartIdGenerator = new AtomicLong(0);
-//    private final IProductService productService;
+    private final AtomicLong cartIdGenerator = new AtomicLong(0);
+    private final IProductService productService;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository){//, IProductService productService) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, IProductService productService) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-//        this.productService = productService;
+        this.productService = productService;
     }
 
     @Override
@@ -66,4 +66,6 @@ public class CartService implements ICartService{
     public Cart getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
     }
+
+//End of class ------------
 }
