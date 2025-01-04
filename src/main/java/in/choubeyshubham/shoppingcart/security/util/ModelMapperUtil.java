@@ -1,4 +1,4 @@
-package in.choubeyshubham.shoppingcart.util;
+package in.choubeyshubham.shoppingcart.security.util;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
