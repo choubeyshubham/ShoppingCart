@@ -20,7 +20,7 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    //---Getter Setter Coonstructor
+    //---Getter Setter Constructor
     public Cart(Long id, BigDecimal totalAmount, Set<CartItem> items, User user) {
         this.id = id;
         this.totalAmount = totalAmount;
