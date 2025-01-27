@@ -10,6 +10,7 @@ import in.choubeyshubham.shoppingcart.service.product.IProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -18,14 +19,15 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CartService implements ICartService{
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final AtomicLong cartIdGenerator = new AtomicLong(0);
-    private final IProductService productService;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, IProductService productService) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.productService = productService;
     }
+//    private final AtomicLong cartIdGenerator = new AtomicLong(0);
+//    private final IProductService productService;
+
+
 
     @Override
     public Cart getCart(Long id) {
@@ -61,6 +63,7 @@ public class CartService implements ICartService{
                     return cartRepository.save(cart);
                 });
     }
+
 
     @Override
     public Cart getCartByUserId(Long userId) {
