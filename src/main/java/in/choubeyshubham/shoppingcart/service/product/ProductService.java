@@ -1,7 +1,7 @@
 package in.choubeyshubham.shoppingcart.service.product;
 
-import in.choubeyshubham.shoppingcart.dto.ImageDto;
 import in.choubeyshubham.shoppingcart.dto.ProductDto;
+import in.choubeyshubham.shoppingcart.exception.AlreadyExistsException;
 import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Category;
 import in.choubeyshubham.shoppingcart.model.Image;
@@ -11,6 +11,7 @@ import in.choubeyshubham.shoppingcart.repository.ImageRepository;
 import in.choubeyshubham.shoppingcart.repository.ProductRepository;
 import in.choubeyshubham.shoppingcart.request.AddProductRequest;
 import in.choubeyshubham.shoppingcart.request.ProductUpdateRequest;
+import in.choubeyshubham.shoppingcart.dto.ImageDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -19,28 +20,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final ImageRepository imageRepository;
 
-
-
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, ModelMapper modelMapper, ImageRepository imageRepository) {
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-        this.modelMapper = modelMapper;
-        this.imageRepository = imageRepository;
-    }
-
     @Override
     public Product addProduct(AddProductRequest request) {
-        // check if the category is found in the DB
-        // If Yes, set it as the new product category
-        // If No, the save it as a new category
-        // The set as the new product category.
-
+        if (productExists(request.getName(), request.getBrand())){
+            throw new AlreadyExistsException(request.getBrand() +" "+request.getName()+ " already exists, you may update this product instead!");
+        }
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory().getName());
@@ -48,6 +39,10 @@ public class ProductService implements IProductService {
                 });
         request.setCategory(category);
         return productRepository.save(createProduct(request, category));
+    }
+
+    private boolean productExists(String name , String brand) {
+        return productRepository.existsByNameAndBrand(name, brand);
     }
 
     private Product createProduct(AddProductRequest request, Category category) {
@@ -61,7 +56,6 @@ public class ProductService implements IProductService {
         );
     }
 
-
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
@@ -74,6 +68,7 @@ public class ProductService implements IProductService {
                 .ifPresentOrElse(productRepository::delete,
                         () -> {throw new ResourceNotFoundException("Product not found!");});
     }
+
 
     @Override
     public Product updateProduct(ProductUpdateRequest request, Long productId) {
