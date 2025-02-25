@@ -5,14 +5,12 @@ import in.choubeyshubham.shoppingcart.exception.AlreadyExistsException;
 import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Category;
 import in.choubeyshubham.shoppingcart.repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-//@RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
     private final CategoryRepository categoryRepository;
 

@@ -8,7 +8,6 @@ import in.choubeyshubham.shoppingcart.exception.ResourceNotFoundException;
 import in.choubeyshubham.shoppingcart.model.Category;
 import in.choubeyshubham.shoppingcart.response.ApiResponse;
 import in.choubeyshubham.shoppingcart.service.category.ICategoryService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

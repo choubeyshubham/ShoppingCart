@@ -1,11 +1,9 @@
 package in.choubeyshubham.shoppingcart.request;
 
 import in.choubeyshubham.shoppingcart.model.Category;
-import lombok.Data;
 
 import java.math.BigDecimal;
 
-//@Data
 public class AddProductRequest {
     private Long id;
     private String name;

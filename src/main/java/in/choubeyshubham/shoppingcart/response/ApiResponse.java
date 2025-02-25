@@ -1,7 +1,6 @@
 package in.choubeyshubham.shoppingcart.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
 
 public class ApiResponse {
     private String message;
